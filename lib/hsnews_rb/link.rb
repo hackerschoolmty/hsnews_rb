@@ -20,8 +20,11 @@ module HsnewsRb
       self.new(response["link"])
     end
 
-    def self.all
-      response = self.get("/links")
+    # params hash uses a :search key to filter links on
+    # the remote
+    def self.all(params = {})
+      #http://localhost:3000/api/links?search=hola
+      response = self.get("/links", query: params )
       response["links"].map { |attrs| self.new(attrs) }
     end
   end
