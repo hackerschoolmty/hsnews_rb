@@ -1,10 +1,7 @@
 require 'pry'
 
 module HsnewsRb
-  class Link < OpenStruct
-    include HTTParty
-    base_uri "http://localhost:3000/api"
-
+  class Link < HsnewsRb::Base
     #attr_accessor :title, :url
     #attr_reader :created_at, :id
 
@@ -26,6 +23,11 @@ module HsnewsRb
       #http://localhost:3000/api/links?search=hola
       response = self.get("/links", query: params )
       response["links"].map { |attrs| self.new(attrs) }
+    end
+
+    def comments
+      response = self.class.get("/links/#{self.id}/comments")
+      response["comments"].map { |attrs| HsnewsRb::Comment.new(attrs) }
     end
   end
 end
